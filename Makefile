@@ -48,8 +48,8 @@ else
 endif
 
 
-TOOLBOX_LIB=`pkg-config --variable=libdir bart`
-TOOLBOX_INC=`pkg-config --variable=includedir bart`
+TOOLBOX_LIB=`pkgconf --variable=libdir bart`
+TOOLBOX_INC=`pkgconf --variable=includedir bart`
 
 
 all: view cfl2png
@@ -58,10 +58,10 @@ src/viewer.inc: src/viewer.ui
 	@echo "STRINGIFY(`cat src/viewer.ui`)" > src/viewer.inc
 
 view:	src/main.c src/view.[ch] src/draw.[ch] src/viewer.inc
-	$(CC) $(CFLAGS) $(EXPDYN) -o view -I$(TOOLBOX_INC) `pkg-config --cflags gtk+-3.0` src/main.c src/view.c src/draw.c `pkg-config --libs gtk+-3.0` $(TOOLBOX_LIB)/libgeom.a $(TOOLBOX_LIB)/libnum.a $(TOOLBOX_LIB)/libmisc.a $(LDFLAGS) `pkg-config --libs bart`
+	$(CC) $(CFLAGS) $(EXPDYN) -o view -I$(TOOLBOX_INC) `pkgconf --cflags gtk+-3.0` src/main.c src/view.c src/draw.c `pkgconf --libs gtk+-3.0` $(TOOLBOX_LIB)/libmisc.a $(TOOLBOX_LIB)/libgeom.a $(TOOLBOX_LIB)/libnum.a $(LDFLAGS) `pkgconf --libs bart`
 
 cfl2png:	src/cfl2png.c src/view.[ch] src/draw.[ch] src/viewer.inc
-	$(CC) $(CFLAGS) $(EXPDYN) -o cfl2png -I$(TOOLBOX_INC) src/cfl2png.c src/draw.c $(TOOLBOX_LIB)/libmisc.a  $(TOOLBOX_LIB)/libgeom.a $(TOOLBOX_LIB)/libnum.a $(CUDA_L) $(LDFLAGS) `pkg-config --libs bart`
+	$(CC) $(CFLAGS) $(EXPDYN) -o cfl2png -I$(TOOLBOX_INC) src/cfl2png.c src/draw.c $(TOOLBOX_LIB)/libmisc.a  $(TOOLBOX_LIB)/libgeom.a $(TOOLBOX_LIB)/libnum.a $(CUDA_L) $(LDFLAGS) `pkgconf --libs bart`
 
 install:
 	install -D view $(DESTDIR)/usr/lib/bart/commands/view
